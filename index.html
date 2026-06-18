@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="JGVRP Arms Dealer Profit Calculator — Hitung modal dan estimasi profit senjata dengan cepat dan akurat.">
+  <title>JGVRP Arms Dealer</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/jgrp-logo-removebg-preview.png">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-brand">
+      <img src="assets/jgrp-logo-removebg-preview.png" alt="JGRP Logo" class="jgrp-logo" width="45" height="45">
+      <span class="navbar-logo"></span>
+    </div>
+
+    <button class="navbar-toggle" id="navToggle" aria-label="Toggle navigation">
+      <i data-lucide="menu"></i>
+    </button>
+
+    <ul class="navbar-nav" id="navMenu">
+      <li><a href="#">Profit Calculator</a></li>
+      <li><a href="#" class="active">Dashboard</a></li>
+      <li><a href="#">Weapons</a></li>
+      <li><a href="#">Ammunition</a></li>
+      <li><a href="#">History</a></li>
+      <li><a href="#">Settings</a></li>
+    </ul>
+
+    <div class="navbar-actions">
+      <button class="navbar-settings" title="Settings"><i data-lucide="settings"></i></button>
+      <button class="navbar-profile" id="profileBtn">
+        <div class="navbar-avatar">BH</div>
+        <div class="navbar-profile-info">
+          <span class="navbar-profile-name">Backtrail Hustlers</span>
+          <span class="navbar-profile-role">Arms Dealer</span>
+        </div>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="main-content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>Dashboard</h1>
+      <p>Hitung modal dan estimasi profit senjata.</p>
+    </div>
+
+    <!-- Top 3-Column Grid -->
+    <div class="dashboard-grid">
+
+      <!-- 1. Ringkasan Biaya -->
+      <div class="card" id="costSummaryCard">
+        <div class="card-header">
+          <h2 class="card-title">Ringkasan Biaya</h2>
+          <button class="card-menu" title="More"><i data-lucide="more-horizontal"></i></button>
+        </div>
+        <div class="cost-item">
+          <div class="cost-item-left">
+            <div class="cost-icon weapon"><i data-lucide="wrench"></i></div>
+            <span class="cost-label">Biaya Create Senjata</span>
+          </div>
+          <span class="cost-value" id="weaponCostDisplay">$0</span>
+        </div>
+        <div class="cost-item">
+          <div class="cost-item-left">
+            <div class="cost-icon ammo"><i data-lucide="package"></i></div>
+            <span class="cost-label">Biaya Create Amunisi / Clip</span>
+          </div>
+          <span class="cost-value" id="ammoCostDisplay">$0</span>
+        </div>
+        <div class="cost-item total-row">
+          <div class="cost-item-left">
+            <div class="cost-icon total"><i data-lucide="dollar-sign"></i></div>
+            <span class="cost-label">Total Modal Transaksi</span>
+          </div>
+          <span class="cost-value" id="totalCostDisplay">$0</span>
+        </div>
+      </div>
+
+      <!-- 2. Estimasi Profit -->
+      <div class="card profit-card" id="profitCard">
+        <div class="card-header">
+          <h2 class="card-title">Estimasi Profit</h2>
+          <button class="card-menu" title="More"><i data-lucide="more-horizontal"></i></button>
+        </div>
+        <div class="profit-amount" id="profitDisplay">$0</div>
+        <div class="profit-margin-row">
+          <span class="profit-margin-label">Profit Margin</span>
+          <span class="profit-margin-value" id="profitMarginDisplay">0%</span>
+        </div>
+        <div class="profit-bar-container">
+          <div class="profit-bar" id="profitBar" style="width: 0%"></div>
+        </div>
+        <div class="profit-details">
+          <div class="profit-detail-item">
+            <div class="profit-detail-label">Harga Jual</div>
+            <div class="profit-detail-value" id="sellingPriceDisplay">$0</div>
+          </div>
+          <div class="profit-detail-item">
+            <div class="profit-detail-label">Total Modal</div>
+            <div class="profit-detail-value" id="totalModalDisplay">$0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Quick Action -->
+      <div class="card quick-action-card" id="quickActionCard">
+        <div class="card-header">
+          <h2 class="card-title">Quick Action</h2>
+          <button class="card-menu" title="More"><i data-lucide="more-horizontal"></i></button>
+        </div>
+        <button class="btn-primary" id="btnNewCalc">
+          <i data-lucide="plus"></i> Hitung Baru
+        </button>
+        <div class="template-section">
+          <label class="template-label">Weapon Template</label>
+          <select class="template-select" id="weaponTemplate">
+            <option value="">Pilih Template</option>
+            <option value="combat_pistol">Combat Pistol</option>
+            <option value="heavy_pistol">Heavy Pistol</option>
+            <option value="machine_pistol">Machine Pistol</option>
+            <option value="sawn_off">Sawn Off</option>
+            <option value="pump">Pump</option>
+          </select>
+          <button class="btn-secondary" id="btnCopyResults">
+            <i data-lucide="copy"></i> Copy Hasil Kalkulasi
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Row -->
+    <div class="bottom-grid">
+
+      <!-- Breakdown Modal -->
+      <div class="card breakdown-card" id="breakdownCard">
+        <div class="card-header">
+          <h2 class="card-title">Breakdown Modal</h2>
+          <button class="card-menu" title="More"><i data-lucide="more-horizontal"></i></button>
+        </div>
+
+        <div class="breakdown-tabs" role="tablist">
+          <button class="breakdown-tab active" data-tab="manufacture" role="tab">Manufacture</button>
+          <button class="breakdown-tab" data-tab="ammo" role="tab">Amunisi</button>
+          <button class="breakdown-tab" data-tab="summary" role="tab">Ringkasan</button>
+        </div>
+
+        <!-- Manufacture Tab -->
+        <div class="tab-content active" id="tab-manufacture">
+          <table class="breakdown-table">
+            <thead>
+              <tr>
+                <th>Bahan</th>
+                <th>Jumlah</th>
+                <th>Harga/Unit</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="manufactureTableBody">
+              <tr>
+                <td colspan="4" class="empty-state">
+                  <div class="empty-state-icon"><i data-lucide="clipboard-list"></i></div>
+                  <div class="empty-state-text">Belum ada data</div>
+                  <div class="empty-state-hint">Klik "Hitung Baru" atau pilih template</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="breakdown-total-row">
+            <span class="breakdown-total-label">Total Manufacture</span>
+            <span class="breakdown-total-value" id="totalManufacture">$0</span>
+          </div>
+        </div>
+
+        <!-- Ammo Tab -->
+        <div class="tab-content" id="tab-ammo">
+          <table class="breakdown-table">
+            <thead>
+              <tr>
+                <th>Bahan</th>
+                <th>Jumlah</th>
+                <th>Harga/Unit</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="ammoTableBody">
+              <tr>
+                <td colspan="4" class="empty-state">
+                  <div class="empty-state-icon"><i data-lucide="target"></i></div>
+                  <div class="empty-state-text">Belum ada data</div>
+                  <div class="empty-state-hint">Klik "Hitung Baru" atau pilih template</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="breakdown-total-row">
+            <span class="breakdown-total-label">Total Ammo Cost</span>
+            <span class="breakdown-total-value" id="totalAmmo">$0</span>
+          </div>
+        </div>
+
+        <!-- Summary Tab -->
+        <div class="tab-content" id="tab-summary">
+          <table class="breakdown-table">
+            <thead>
+              <tr>
+                <th>Keterangan</th>
+                <th>Qty</th>
+                <th>Per-Unit</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="summaryTableBody">
+              <tr>
+                <td colspan="4" class="empty-state">
+                  <div class="empty-state-icon"><i data-lucide="bar-chart-3"></i></div>
+                  <div class="empty-state-text">Belum ada data</div>
+                  <div class="empty-state-hint">Klik "Hitung Baru" atau pilih template</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="breakdown-total-row">
+            <span class="breakdown-total-label">Total Keseluruhan</span>
+            <span class="breakdown-total-value" id="totalOverall">$0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informasi -->
+      <div class="card info-card" id="infoCard">
+        <div class="card-header">
+          <h2 class="card-title">Informasi</h2>
+        </div>
+        <div class="info-item">
+          <div class="info-item-left">
+            <span class="info-icon"><i data-lucide="calendar"></i></span>
+            <span class="info-label">Update Terakhir</span>
+          </div>
+          <span class="info-value">18 Jun 2026</span>
+        </div>
+        <div class="info-item">
+          <div class="info-item-left">
+            <span class="info-icon"><i data-lucide="box"></i></span>
+            <span class="info-label">Versi Kalkulator</span>
+          </div>
+          <span class="info-value">v1.0.0</span>
+        </div>
+        <div class="info-item">
+          <div class="info-item-left">
+            <span class="info-icon"><i data-lucide="globe"></i></span>
+            <span class="info-label">Status</span>
+          </div>
+          <span class="status-badge">
+            <span class="status-dot"></span>
+            Aktif
+          </span>
+        </div>
+
+        <!-- Reference Prices -->
+        <div class="card-header" style="margin-top:12px; padding-top:12px; border-top:1px solid #f0f0f0">
+          <h2 class="card-title" style="font-size:14px">Harga Bahan</h2>
+        </div>
+        <div class="info-item">
+          <div class="info-item-left">
+            <span class="info-icon"><i data-lucide="nut"></i></span>
+            <span class="info-label">Gun Material</span>
+          </div>
+          <span class="info-value">$35 /unit</span>
+        </div>
+        <div class="info-item">
+          <div class="info-item-left">
+            <span class="info-icon"><i data-lucide="pickaxe"></i></span>
+            <span class="info-label">Heavy Material</span>
+          </div>
+          <span class="info-value">$75 /unit</span>
+        </div>
+        <div class="info-item">
+          <div class="info-item-left">
+            <span class="info-icon"><i data-lucide="settings-2"></i></span>
+            <span class="info-label">Component</span>
+          </div>
+          <span class="info-value">$1.25 /unit</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-left">
+        <p>&copy; 2026 JGVRP Arms Daeler Tools</p>
+      </div>
+      <div class="footer-right">
+        <p>Created by <span class="footer-credit">bimaak15/B1maF4st</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== INPUT MODAL ========== -->
+  <div class="modal-overlay" id="calcModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Hitung Transaksi Baru</h2>
+        <button class="modal-close" id="modalClose" aria-label="Close"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+
+          <!-- Weapon Selection -->
+          <div class="form-section-title">Pilih Senjata</div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalWeaponType">Tipe Senjata</label>
+            <select class="form-input" id="modalWeaponType">
+              <option value="">— Pilih Senjata —</option>
+              <option value="combat_pistol">Combat Pistol</option>
+              <option value="heavy_pistol">Heavy Pistol</option>
+              <option value="machine_pistol">Machine Pistol</option>
+              <option value="sawn_off">Sawn Off</option>
+              <option value="pump">Pump</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="weaponQty">Jumlah Senjata</label>
+            <input type="number" class="form-input" id="weaponQty" placeholder="1" min="1" value="1">
+            <span class="form-error" id="weaponQtyError">Jumlah harus minimal 1</span>
+          </div>
+
+          <!-- Recipe Display (auto-filled) -->
+          <div class="form-section-title">Recipe Manufacture <span
+              style="font-weight:400;font-size:12px;color:#9CA3AF">(auto dari tipe senjata)</span></div>
+
+          <div class="form-group">
+            <label class="form-label" for="gunMatQty">Gun Material (qty)</label>
+            <input type="number" class="form-input" id="gunMatQty" placeholder="0" min="0" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="gunMatPrice">Gun Material ($/unit)</label>
+            <input type="number" class="form-input" id="gunMatPrice" value="35" readonly>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="heavyMatQty">Heavy Material (qty)</label>
+            <input type="number" class="form-input" id="heavyMatQty" placeholder="0" min="0" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="heavyMatPrice">Heavy Material ($/unit)</label>
+            <input type="number" class="form-input" id="heavyMatPrice" value="75" readonly>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="componentQty">Component (qty)</label>
+            <input type="number" class="form-input" id="componentQty" placeholder="0" min="0" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="componentPrice">Component ($/unit)</label>
+            <input type="number" class="form-input" id="componentPrice" value="1.25" readonly>
+          </div>
+
+          <!-- Ammo Recipe -->
+          <div class="form-section-title">Recipe Ammo <span style="font-weight:400;font-size:12px;color:#9CA3AF">(auto
+              dari tipe senjata)</span></div>
+
+          <div class="form-group">
+            <label class="form-label" for="ammoGunMatQty">Ammo Gun Material (qty)</label>
+            <input type="number" class="form-input" id="ammoGunMatQty" placeholder="0" min="0" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ammoComponentQty">Ammo Component (qty)</label>
+            <input type="number" class="form-input" id="ammoComponentQty" placeholder="0" min="0" readonly>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ammoCostPerCreate">Ammo Cost (/create)</label>
+            <input type="text" class="form-input" id="ammoCostPerCreate" placeholder="$0" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ammoCreatedPerCraft">Ammo Created (per craft)</label>
+            <input type="number" class="form-input" id="ammoCreatedPerCraft" placeholder="0" readonly>
+          </div>
+
+          <!-- Transaction -->
+          <div class="form-section-title">Transaksi</div>
+
+          <div class="form-group">
+            <label class="form-label" for="ammoQtyToSell">Jumlah Ammo yang dijual</label>
+            <input type="number" class="form-input" id="ammoQtyToSell" placeholder="cth. 48" min="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sellingPrice">Total Harga Jual ($)</label>
+            <input type="number" class="form-input" id="sellingPrice" placeholder="cth. 10000" min="0">
+            <span class="form-error" id="sellingPriceError">Harga jual harus lebih dari 0</span>
+          </div>
+
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-secondary" id="btnResetForm"><i data-lucide="refresh-cw"></i> Reset</button>
+          <button class="btn-primary" id="btnCalculate">
+            Hitung Profit <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"><i data-lucide="check-circle" style="vertical-align: middle; margin-right: 8px;"></i>
+    Hasil kalkulasi berhasil disalin!</div>
+
+  <script src="app.js"></script>
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+
+</html>
