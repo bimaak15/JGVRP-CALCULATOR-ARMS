@@ -319,100 +319,169 @@
         <button class="modal-close" id="modalClose" aria-label="Close"><i data-lucide="x"></i></button>
       </div>
       <div class="modal-body">
-        <div class="form-grid">
-
-          <!-- Weapon Selection -->
-          <div class="form-section-title">Pilih Senjata</div>
-
-          <div class="form-group">
-            <label class="form-label" for="modalWeaponType">Tipe Senjata</label>
-            <select class="form-input" id="modalWeaponType">
-              <option value="">— Pilih Senjata —</option>
-              <option value="combat_pistol">Combat Pistol</option>
-              <option value="heavy_pistol">Heavy Pistol</option>
-              <option value="machine_pistol">Machine Pistol</option>
-              <option value="sawn_off">Sawn Off</option>
-              <option value="pump">Pump</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="weaponQty">Jumlah Senjata</label>
-            <input type="number" class="form-input" id="weaponQty" placeholder="1" min="1" value="1">
-            <span class="form-error" id="weaponQtyError">Jumlah harus minimal 1</span>
-          </div>
-
-          <!-- Recipe Display (auto-filled) -->
-          <div class="form-section-title">Recipe Manufacture <span
-              style="font-weight:400;font-size:12px;color:#9CA3AF">(auto dari tipe senjata)</span></div>
-
-          <div class="form-group">
-            <label class="form-label" for="gunMatQty">Gun Material (qty)</label>
-            <input type="number" class="form-input" id="gunMatQty" placeholder="0" min="0" readonly>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="gunMatPrice">Gun Material ($/unit)</label>
-            <input type="number" class="form-input" id="gunMatPrice" value="35" readonly>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="heavyMatQty">Heavy Material (qty)</label>
-            <input type="number" class="form-input" id="heavyMatQty" placeholder="0" min="0" readonly>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="heavyMatPrice">Heavy Material ($/unit)</label>
-            <input type="number" class="form-input" id="heavyMatPrice" value="75" readonly>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="componentQty">Component (qty)</label>
-            <input type="number" class="form-input" id="componentQty" placeholder="0" min="0" readonly>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="componentPrice">Component ($/unit)</label>
-            <input type="number" class="form-input" id="componentPrice" value="1.25" readonly>
+        <div class="transaction-slots">
+          
+          <!-- Slot 1 -->
+          <div class="transaction-slot" id="slot-1">
+            <div class="slot-header">
+              <span class="slot-number">Transaksi 1</span>
+              <span class="slot-status-dot"></span>
+            </div>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label" for="weaponType-1">Tipe Senjata</label>
+                <select class="form-input weapon-select" id="weaponType-1" data-slot="1">
+                  <option value="">— Pilih Senjata —</option>
+                  <option value="combat_pistol">Combat Pistol</option>
+                  <option value="heavy_pistol">Heavy Pistol</option>
+                  <option value="machine_pistol">Machine Pistol</option>
+                  <option value="sawn_off">Sawn Off</option>
+                  <option value="pump">Pump</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="location-1">Lokasi Pembeli</label>
+                <select class="form-input" id="location-1">
+                  <option value="">— Pilih Lokasi —</option>
+                  <option value="Strawberry">Strawberry</option>
+                  <option value="La Mesa">La Mesa</option>
+                  <option value="Del Perro">Del Perro</option>
+                  <option value="Textille City">Textille City</option>
+                  <option value="Little Seoul">Little Seoul</option>
+                  <option value="Hawick">Hawick</option>
+                  <option value="Rancho">Rancho</option>
+                  <option value="Rockford Hills">Rockford Hills</option>
+                  <option value="West Vinewood">West Vinewood</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="weaponQty-1">Jumlah</label>
+                <input type="number" class="form-input" id="weaponQty-1" placeholder="1" min="0" value="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ammoQty-1">Ammo Dijual</label>
+                <input type="number" class="form-input" id="ammoQty-1" placeholder="0" min="0" value="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sellingPrice-1">Harga Jual ($)</label>
+                <input type="number" class="form-input" id="sellingPrice-1" placeholder="0" min="0" value="0">
+              </div>
+            </div>
           </div>
 
-          <!-- Ammo Recipe -->
-          <div class="form-section-title">Recipe Ammo <span style="font-weight:400;font-size:12px;color:#9CA3AF">(auto
-              dari tipe senjata)</span></div>
+          <!-- Slot 2 -->
+          <div class="transaction-slot" id="slot-2">
+            <div class="slot-header">
+              <span class="slot-number">Transaksi 2</span>
+              <span class="slot-status-dot"></span>
+            </div>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label" for="weaponType-2">Tipe Senjata</label>
+                <select class="form-input weapon-select" id="weaponType-2" data-slot="2">
+                  <option value="">— Pilih Senjata —</option>
+                  <option value="combat_pistol">Combat Pistol</option>
+                  <option value="heavy_pistol">Heavy Pistol</option>
+                  <option value="machine_pistol">Machine Pistol</option>
+                  <option value="sawn_off">Sawn Off</option>
+                  <option value="pump">Pump</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="location-2">Lokasi Pembeli</label>
+                <select class="form-input" id="location-2">
+                  <option value="">— Pilih Lokasi —</option>
+                  <option value="Strawberry">Strawberry</option>
+                  <option value="La Mesa">La Mesa</option>
+                  <option value="Del Perro">Del Perro</option>
+                  <option value="Textille City">Textille City</option>
+                  <option value="Little Seoul">Little Seoul</option>
+                  <option value="Hawick">Hawick</option>
+                  <option value="Rancho">Rancho</option>
+                  <option value="Rockford Hills">Rockford Hills</option>
+                  <option value="West Vinewood">West Vinewood</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="weaponQty-2">Jumlah</label>
+                <input type="number" class="form-input" id="weaponQty-2" placeholder="1" min="0" value="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ammoQty-2">Ammo Dijual</label>
+                <input type="number" class="form-input" id="ammoQty-2" placeholder="0" min="0" value="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sellingPrice-2">Harga Jual ($)</label>
+                <input type="number" class="form-input" id="sellingPrice-2" placeholder="0" min="0" value="0">
+              </div>
+            </div>
+          </div>
 
-          <div class="form-group">
-            <label class="form-label" for="ammoGunMatQty">Ammo Gun Material (qty)</label>
-            <input type="number" class="form-input" id="ammoGunMatQty" placeholder="0" min="0" readonly>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="ammoComponentQty">Ammo Component (qty)</label>
-            <input type="number" class="form-input" id="ammoComponentQty" placeholder="0" min="0" readonly>
+          <!-- Slot 3 -->
+          <div class="transaction-slot" id="slot-3">
+            <div class="slot-header">
+              <span class="slot-number">Transaksi 3</span>
+              <span class="slot-status-dot"></span>
+            </div>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label" for="weaponType-3">Tipe Senjata</label>
+                <select class="form-input weapon-select" id="weaponType-3" data-slot="3">
+                  <option value="">— Pilih Senjata —</option>
+                  <option value="combat_pistol">Combat Pistol</option>
+                  <option value="heavy_pistol">Heavy Pistol</option>
+                  <option value="machine_pistol">Machine Pistol</option>
+                  <option value="sawn_off">Sawn Off</option>
+                  <option value="pump">Pump</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="location-3">Lokasi Pembeli</label>
+                <select class="form-input" id="location-3">
+                  <option value="">— Pilih Lokasi —</option>
+                  <option value="Strawberry">Strawberry</option>
+                  <option value="La Mesa">La Mesa</option>
+                  <option value="Del Perro">Del Perro</option>
+                  <option value="Textille City">Textille City</option>
+                  <option value="Little Seoul">Little Seoul</option>
+                  <option value="Hawick">Hawick</option>
+                  <option value="Rancho">Rancho</option>
+                  <option value="Rockford Hills">Rockford Hills</option>
+                  <option value="West Vinewood">West Vinewood</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="weaponQty-3">Jumlah</label>
+                <input type="number" class="form-input" id="weaponQty-3" placeholder="1" min="0" value="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ammoQty-3">Ammo Dijual</label>
+                <input type="number" class="form-input" id="ammoQty-3" placeholder="0" min="0" value="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sellingPrice-3">Harga Jual ($)</label>
+                <input type="number" class="form-input" id="sellingPrice-3" placeholder="0" min="0" value="0">
+              </div>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="ammoCostPerCreate">Ammo Cost (/create)</label>
-            <input type="text" class="form-input" id="ammoCostPerCreate" placeholder="$0" readonly>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="ammoCreatedPerCraft">Ammo Created (per craft)</label>
-            <input type="number" class="form-input" id="ammoCreatedPerCraft" placeholder="0" readonly>
-          </div>
+        </div>
 
-          <!-- Transaction -->
-          <div class="form-section-title">Transaksi</div>
-
-          <div class="form-group">
-            <label class="form-label" for="ammoQtyToSell">Jumlah Ammo yang dijual</label>
-            <input type="number" class="form-input" id="ammoQtyToSell" placeholder="cth. 48" min="0">
+        <div class="modal-footer-preview">
+          <div class="preview-item">
+            <span class="preview-label">Total Modal Session</span>
+            <span class="preview-value" id="modalTotalModal">$0</span>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="sellingPrice">Total Harga Jual ($)</label>
-            <input type="number" class="form-input" id="sellingPrice" placeholder="cth. 10000" min="0">
-            <span class="form-error" id="sellingPriceError">Harga jual harus lebih dari 0</span>
+          <div class="preview-item">
+            <span class="preview-label">Estimasi Profit Session</span>
+            <span class="preview-value highlight" id="modalTotalProfit">$0</span>
           </div>
-
         </div>
 
         <div class="modal-actions">
           <button class="btn-secondary" id="btnResetForm"><i data-lucide="refresh-cw"></i> Reset</button>
           <button class="btn-primary" id="btnCalculate">
-            Hitung Profit <i data-lucide="arrow-right"></i>
+            Berangkat Transaksi <i data-lucide="truck"></i>
           </button>
         </div>
       </div>
