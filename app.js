@@ -86,6 +86,11 @@ const modalElements = {
   modalClose: $('#modalClose')
 };
 
+const transactionCards = {
+  section: $('#transactionCardsSection'),
+  container: $('#transactionCards')
+};
+
 const common = {
   btnNewCalc: $('#btnNewCalc'),
   btnCopy: $('#btnCopyResults'),
@@ -124,7 +129,7 @@ function calculateTransaction(slotIndex) {
   const ammoQtyToSell = getVal(slot.ammoQty);
   const craftsNeeded = weaponConfig.ammo.createdPerCraft > 0 ? Math.ceil(ammoQtyToSell / weaponConfig.ammo.createdPerCraft) : 0;
   const ammoCost = craftsNeeded * weaponConfig.ammo.costPerCreate;
-  
+
   const totalModal = weaponBaseCost + ammoCost;
   const sellingPrice = getVal(slot.sellingPrice);
   const profit = sellingPrice - totalModal;
@@ -148,7 +153,7 @@ function calculateTransaction(slotIndex) {
 
 function calculateSession() {
   const transactions = modalElements.slots.map((_, i) => calculateTransaction(i)).filter(t => t !== null);
-  
+
   if (transactions.length === 0) return null;
 
   const totalModal = transactions.reduce((sum, t) => sum + t.totalModal, 0);
@@ -197,6 +202,7 @@ function updateDashboard(sessionData) {
     dashboard.totals.manufacture.textContent = '$0';
     dashboard.totals.ammo.textContent = '$0';
     dashboard.totals.overall.textContent = '$0';
+    renderTransactionCards(null);
     return;
   }
 
@@ -206,12 +212,12 @@ function updateDashboard(sessionData) {
   dashboard.totalCost.textContent = formatCurrency(sessionData.totalModal);
   dashboard.profit.textContent = formatCurrency(sessionData.totalProfit);
   dashboard.profit.className = 'profit-amount' + (sessionData.totalProfit >= 0 ? '' : ' loss');
-  
+
   dashboard.margin.textContent = sessionData.profitMargin.toFixed(2) + '%';
   dashboard.margin.className = 'profit-margin-value' + (sessionData.totalProfit < 0 ? ' loss' : '');
   dashboard.progressBar.style.width = Math.min(100, Math.max(0, sessionData.profitMargin)) + '%';
   dashboard.progressBar.className = 'profit-bar' + (sessionData.totalProfit < 0 ? ' loss' : '');
-  
+
   dashboard.sellingPrice.textContent = formatCurrency(sessionData.totalSellingPrice);
   dashboard.totalModal.textContent = formatCurrency(sessionData.totalModal);
 
@@ -254,6 +260,55 @@ function updateDashboard(sessionData) {
     </tr>
   `;
   dashboard.totals.overall.textContent = formatCurrency(sessionData.totalModal);
+
+  // Transaction Cards
+  renderTransactionCards(sessionData.transactions);
+}
+
+function renderTransactionCards(transactions) {
+  if (!transactions || transactions.length === 0) {
+    transactionCards.section.style.display = 'none';
+    transactionCards.container.innerHTML = '';
+    return;
+  }
+
+  transactionCards.section.style.display = '';
+  transactionCards.container.innerHTML = transactions.map(t => `
+    <div class="transaction-card${t.profit < 0 ? ' loss' : ''}">
+      <div class="transaction-card-header">
+        <div>
+          <div class="transaction-card-title">${t.weaponName} &times; ${t.weaponQty}</div>
+          <div class="transaction-card-location"><i data-lucide="map-pin"></i> ${t.location}</div>
+        </div>
+        <span class="transaction-card-slot">#${t.slot}</span>
+      </div>
+      <div class="transaction-card-details">
+        <div class="transaction-detail-item">
+          <span class="transaction-detail-label">Senjata</span>
+          <span class="transaction-detail-value">${t.weaponQty} unit</span>
+        </div>
+        <div class="transaction-detail-item">
+          <span class="transaction-detail-label">Amunisi</span>
+          <span class="transaction-detail-value">${t.ammoQtyToSell} pcs</span>
+        </div>
+        <div class="transaction-detail-item">
+          <span class="transaction-detail-label">Harga Jual</span>
+          <span class="transaction-detail-value">${formatCurrency(t.sellingPrice)}</span>
+        </div>
+        <div class="transaction-detail-item">
+          <span class="transaction-detail-label">Modal</span>
+          <span class="transaction-detail-value">${formatCurrency(t.totalModal)}</span>
+        </div>
+      </div>
+      <hr class="transaction-card-divider">
+      <div class="transaction-card-profit">
+        <span class="transaction-profit-label">Profit</span>
+        <span class="transaction-profit-value${t.profit < 0 ? ' loss' : ''}">${formatCurrency(t.profit)}</span>
+      </div>
+    </div>
+  `).join('');
+
+  lucide.createIcons();
 }
 
 function updateModalPreview() {
@@ -352,7 +407,7 @@ function init() {
   common.btnNewCalc.addEventListener('click', openModal);
   modalElements.modalClose.addEventListener('click', closeModal);
   modalElements.btnReset.addEventListener('click', resetForm);
-  
+
   modalElements.btnCalculate.addEventListener('click', () => {
     const data = calculateSession();
     if (!data) {

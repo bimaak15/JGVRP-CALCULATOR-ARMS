@@ -1176,6 +1176,14 @@ body {
   .profit-amount {
     font-size: 32px;
   }
+
+  .transaction-cards-section {
+    padding: 0 16px;
+  }
+
+  .transaction-cards-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1221,6 +1229,155 @@ body {
 ::selection {
   background: var(--soft-green);
   color: var(--primary-green);
+}
+
+/* ---------- Transaction Cards Section ---------- */
+.transaction-cards-section {
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: 0 40px;
+  margin-bottom: 24px;
+}
+
+.section-header {
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i,
+.section-title svg {
+  width: 18px;
+  height: 18px;
+  color: var(--primary-green);
+}
+
+.transaction-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.transaction-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-left: 4px solid var(--primary-green);
+  transition: var(--transition);
+  animation: slideUp 0.3s ease-out;
+}
+
+.transaction-card.loss {
+  border-left-color: #DC2626;
+}
+
+.transaction-card:hover {
+  box-shadow: 0 8px 24px rgba(23, 169, 92, 0.15);
+  transform: translateY(-2px);
+}
+
+.transaction-card.loss:hover {
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.15);
+}
+
+.transaction-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.transaction-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.transaction-card-location {
+  font-size: 13px;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.transaction-card-location svg,
+.transaction-card-location i {
+  width: 13px;
+  height: 13px;
+}
+
+.transaction-card-slot {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary-green);
+  background: var(--soft-green);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.transaction-card-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+}
+
+.transaction-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.transaction-detail-label {
+  font-size: 11px;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.transaction-detail-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.transaction-card-divider {
+  border: none;
+  border-top: 1px solid #F3F4F6;
+  margin: 12px 0;
+}
+
+.transaction-card-profit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transaction-profit-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6B7280;
+}
+
+.transaction-profit-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-green);
+}
+
+.transaction-profit-value.loss {
+  color: #DC2626;
 }
 
 /* ---------- Footer ---------- */
